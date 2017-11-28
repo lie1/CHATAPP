@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+ 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <title>Chat app</title>
+
+   <link rel = "stylesheet" 
+         href = "https://cdnjs.cloudflare.com/ajax/libs/framework7/1.4.2/css/framework7.ios.min.css" />
+      <link rel = "stylesheet" 
+         href = "https://cdnjs.cloudflare.com/ajax/libs/framework7/1.4.2/css/framework7.ios.colors.min.css" />
+
+
+   </head>
+
+   <body>
+      <div class = "views">
+         <div class = "view view-main">
+            <div class = "pages">
+               <div data-page = "home" class = "page navbar-fixed">
+
+                 <div class="navbar" style="background-color: #91e2d2">
+                    <div class="left" style="position: absolute; text-align: center;"><h3>MY APP</div>
+          <div class="navbar-inner-fixed" style="align-content: center;">
+            
+            <div class="right">
+             
+              <a href="about.html" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                 </div>
+          </div>
+        </div>
+
+
+                
+                  
+                  <div class = "toolbar messagebar">
+                     <div class = "toolbar-inner">
+                        <textarea placeholder = "Message"></textarea><a href = "#" class = "link">Send</a>
+                     </div>
+                  </div>
+                  
+                  <div class = "page-content messages-content">
+                     <div class = "messages">
+                        <div class = "messages-date">Friday, Nov 23 <span>10:30</span></div>
+                        <div class = "message message-sent">
+                            <div class = "message-name">Kyoshiro</div>
+                           <div class = "message-text">Hello</div>
+                           <div style= "background-image: url(lib/framework7/img/shiro.png)" class="message-avatar"></div>
+                        </div>
+                        
+                        <div class = "message-name">Kyoshiro</div>
+                        <div class = "message message-sent">
+                           <div class = "message-text">Ano pala nym mo?</div>
+                           <div style= "background-image: url(lib/framework7/img/shiro.png)" class="message-avatar"></div>
+                        </div>
+                        
+                        <div class = "message message-received">
+                           <div class = "message-name">Judymae</div>
+                           <div class = "message-text">Ahmm, Judy mae po..</div>
+                           <div style = "background-image:url(lib/framework7/img/judy.png)" class = "message-avatar"></div>
+                        </div>
+                        
+                        <div class = "messages-date">Friday, Nov 23 <span>11:01</span></div>
+                        <div class = "message message-sent">
+                           <div class = "message-text">Good Morning...</div>
+                        </div>
+                        
+                        <div class = "message message-sent">
+                           <div class = "message-text"><img src = "lib/framework7/img/emo.png" height="50px" width="70px"></div>
+                           <div class = "message-label">Delivered</div>
+                        </div>
+                        
+                        <div class = "message message-received">
+                           <div class = "message-name">Clarissa</div>
+                           <div class = "message-text">Anong meron dito?</div>
+                           <div style = "background-image:url(lib/framework7/img/clariss.png)" class = "message-avatar"></div>
+                        </div>
+                     </div>
+                  </div>
+                  
+               </div>
+            </div>
+         </div>
+      </div>
+
+      
+      <script type = "text/javascript" 
+         src = "https://cdnjs.cloudflare.com/ajax/libs/framework7/1.4.2/js/framework7.min.js"></script>
+         
+      <script>
+         var myApp = new Framework7();
+         var $$ = Dom7;
+
+         // It indicates conversation flag
+         var conversationStarted = false;
+
+         // Here initiliaze the messages
+         var myMessages = myApp.messages('.messages', {
+            autoLayout:true
+         });
+
+         // Initiliaze the messagebar
+         var myMessagebar = myApp.messagebar('.messagebar');
+
+         // Displays the text after clicking the button
+         $$('.messagebar .link').on('click', function () {
+         
+            // specifies the message text
+            var messageText = myMessagebar.value().trim();
+            
+            // If there is no message, then exit from there
+            if (messageText.length === 0) return;
+
+            // Specifies the empty messagebar
+            myMessagebar.clear()
+
+            // Defines the random message type
+            var messageType = (['sent', 'received'])[Math.round(Math.random())];
+
+            // Provides the avatar and name for the received message
+            var name = (['Talia','Clarissa','Judymae','Christy'])[Math.round(Math.random())];
+        
+            var avatar;
+         
+            if(messageType === 'received') {
+               name = name;
+           
+            if(name === 'Judymae'){
+                avatar = 'lib/framework7/img/judy.png';
+            }
+            if (name === 'Clarissa') {
+                avatar = 'lib/framework7/img/clariss.png';
+            }
+            if (name === 'Talia') {
+            	avatar = 'lib/framework7/img/thalia.png';
+            }
+
+        }
+
+           if(messageType === 'sent') {
+               name = 'Kyoshiro';
+               avatar = 'lib/framework7/img/shiro.png';
+           }
+         
+
+            
+            
+            // It adds the message
+            myMessages.addMessage ({
+            
+               // It provides the message text
+               text: messageText,
+            
+               // It displays the random message type
+               type: messageType,
+            
+               // Specifies the avatar and name of the sender
+               avatar: avatar,
+               name: name,
+            
+               // Displays the day, date and time of the message
+               day: !conversationStarted ? 'Today' : false,
+               time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
+            })
+
+            // Here you can update the conversation flag
+            conversationStarted = true;
+         });
+
+
+             $$('.show-tab-1').on('click', function () {
+            myApp.showTab('#tab1'); 
+             });
+            
+         
+            $$('.show-tab-2').on('click', function () {
+            myApp.showTab('#tab2');
+             });
+         
+            $$('.show-tab-3').on('click', function () {
+            myApp.showTab('#tab3');
+             });
+
+
+
+
+      </script>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
